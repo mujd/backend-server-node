@@ -17,6 +17,9 @@
         "jsonwebtoken": "^8.3.0",
         "mongoose": "^5.3.5",
         "mongoose-unique-validator": "^2.0.2",
+        "nodemailer": "^4.6.8",
+        "nodemailer-plugin-inline-base64": "^2.1.1",
+        "nodemailer-smtp-transport": "^2.7.4",
         "serve-index": "^1.9.1"
     }
 }
