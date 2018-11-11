@@ -9,8 +9,8 @@ module.exports = (formulario) => {
         secure: true, // true for 465, false for other ports
         // port: 465,
         auth: {
-            user: 'mujd19@gmail.com', // Cambialo por tu email
-            pass: '5minutossolo' // Cambialo por tu password
+            user: 'xxx@gmail.com', // Cambialo por tu email
+            pass: 'xxx' // Cambialo por tu password
         }
     }));
     const mailOptions = {
