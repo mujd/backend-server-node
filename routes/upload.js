@@ -1,21 +1,21 @@
-var express = require('express');
-var fileUpload = require('express-fileupload');
-var fs = require('fs');
-var app = express();
-var Usuario = require('../models/usuario');
-var Medico = require('../models/medico');
-var Hospital = require('../models/hospital');
+const express = require('express');
+const fileUpload = require('express-fileupload');
+const fs = require('fs');
+const app = express();
+const Usuario = require('../models/usuario');
+const Medico = require('../models/medico');
+const Hospital = require('../models/hospital');
 
 // default options
 app.use(fileUpload());
 
 app.put('/:tipo/:id', (req, res, next) => {
 
-    var tipo = req.params.tipo;
-    var id = req.params.id;
+    let tipo = req.params.tipo;
+    let id = req.params.id;
 
     // tipos de colección
-    var tiposValidos = ['hospitales', 'medicos', 'usuarios'];
+    let tiposValidos = ['hospitales', 'medicos', 'usuarios'];
     if (tiposValidos.indexOf(tipo) < 0) {
         return res.status(400).json({
             ok: false,
@@ -31,12 +31,12 @@ app.put('/:tipo/:id', (req, res, next) => {
         });
     }
     // Obtener nombre del archivo
-    var archivo = req.files.imagen;
-    var nombreCortado = archivo.name.split('.');
-    var extensionArchivo = nombreCortado[nombreCortado.length - 1];
+    let archivo = req.files.imagen;
+    let nombreCortado = archivo.name.split('.');
+    let extensionArchivo = nombreCortado[nombreCortado.length - 1];
 
     // Sólo estas extensiones aceptamos
-    var extensionesValidas = ['png', 'jpg', 'gif', 'jpeg'];
+    let extensionesValidas = ['png', 'jpg', 'gif', 'jpeg'];
 
     if (extensionesValidas.indexOf(extensionArchivo) < 0) {
         return res.status(400).json({
@@ -47,9 +47,9 @@ app.put('/:tipo/:id', (req, res, next) => {
     }
     // Nombre de archivo personalizado
     // 12312312312-123.png
-    var nombreArchivo = `${ id }-${ new Date().getMilliseconds() }.${ extensionArchivo }`;
+    let nombreArchivo = `${ id }-${ new Date().getMilliseconds() }.${ extensionArchivo }`;
     // Mover el archivo del temporal a un path
-    var path = `./uploads/${ tipo }/${ nombreArchivo }`;
+    let path = `./uploads/${ tipo }/${ nombreArchivo }`;
 
     archivo.mv(path, err => {
 
@@ -80,7 +80,7 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
                     errors: { message: 'Usuario no existe' }
                 });
             }
-            var pathViejo = './uploads/usuarios/' + usuario.img;
+            let pathViejo = './uploads/usuarios/' + usuario.img;
             // Si existe, elimina la imagen anterior
             if (fs.existsSync(pathViejo)) {
                 fs.unlinkSync(pathViejo);
@@ -105,7 +105,7 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
                     errors: { message: 'Médico no existe' }
                 });
             }
-            var pathViejo = './uploads/medicos/' + medico.img;
+            let pathViejo = './uploads/medicos/' + medico.img;
             // Si existe, elimina la imagen anterior
             if (fs.existsSync(pathViejo)) {
                 fs.unlinkSync(pathViejo);
@@ -130,7 +130,7 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
                     errors: { message: 'Hospital no existe' }
                 });
             }
-            var pathViejo = './uploads/hospitales/' + hospital.img;
+            let pathViejo = './uploads/hospitales/' + hospital.img;
             // Si existe, elimina la imagen anterior
             if (fs.existsSync(pathViejo)) {
                 fs.unlinkSync(pathViejo);
@@ -148,7 +148,7 @@ function subirPorTipo(tipo, id, nombreArchivo, res) {
 }
 
 function subirPorTipoOtro(tipo, id, path, res) {
-    var tipoColeccion;
+    let tipoColeccion;
     switch (tipo) {
         case 'hospitales':
             tipoColeccion = Hospital;
@@ -173,7 +173,7 @@ function subirPorTipoOtro(tipo, id, path, res) {
                         errors: { message: 'Debe selecionar un Id valido' }
                     });
                 } else {
-                    var pathViejo = resultado.img;
+                    let pathViejo = resultado.img;
                     // Si existe, Elimino la imagen vieja
                     if (fs.existsSync(pathViejo)) {
                         fs.unlink(pathViejo);
